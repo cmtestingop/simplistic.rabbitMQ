@@ -62,7 +62,7 @@ jobs:
       run: scancentral -url "http://184.170.232.215:8080/scancentral-ctrl" start $BUILD_OPTS -upload -application $APPLICATION -version $VERSION -uptoken $SSC_UPLOAD_TOKEN
       env:                                            
         SC_CONTROLLER_URL: "http://184.170.232.215:8080/scancentral-ctrl/"
-        SSC_UPLOAD_TOKEN: "MzFlNDZlZjktM2FkMS00NjVjLWFkY2EtNWM1M2E2MzEzMDM3"
+        SSC_UPLOAD_TOKEN: "31e46ef9-3ad1-465c-adca-5c53a6313037"
         APPLICATION: "simprabbitMQ"
         VERSION: "10.0"
         BUILD_OPTS: "-bt mvn"
