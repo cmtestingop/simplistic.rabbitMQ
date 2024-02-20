@@ -41,30 +41,49 @@ jobs:
       with:
         java-version: 11
 
+       
+    - name: Check out source code
+      uses: actions/checkout@v4  
+    - name: Run ScanCentral SAST Scan
+      uses: fortify/github-action/sc-sast-scan@v1
+      env:
+          SSC_URL: "http://services-uscentral.skytap.com:8230/ssc"
+          SSC_TOKEN: "a4921adb-5e2b-46f4-9099-d14824811895"
+          SSC_USER: "carlosmerlos"
+          SSC_PASSWORD: "MicroFocus24."
+          SC_SAST_TOKEN: "8d08a6d4-7ad1-4ca3-beaf-72edf446db96"
+          # EXTRA_SC_SAST_LOGIN_OPTS: --socket-timeout=60s
+          SSC_APPVERSION: TestingRabbit:1.0
+          # EXTRA_PACKAGE_OPTS: -bf custom-pom.xml
+          SC_SAST_SENSOR_VERSION: 23.2
+
+          # DO_WAIT: true
+          # DO_EXPORT: true
+          # TOOL_DEFINITIONS: https://ftfy.mycompany.com/tool-definitions/v1/tool-definitions.yaml.zip
     ### Set up Fortify ScanCentral Client ###
-    - name: Download Fortify ScanCentral Client
-      uses: fortify/gha-setup-scancentral-client@v1   
-      with:
-        version: 21.1.2                                      # On-prem customers should specify a client version that matches their ScanCentral environment
+   # - name: Download Fortify ScanCentral Client
+   #   uses: fortify/gha-setup-scancentral-client@v1   
+   #    with:
+    #     version: 21.1.2                                      # On-prem customers should specify a client version that matches their ScanCentral environment
                                                              # FoD customers usually should not specify a version but rather rely on the default version
-        client-auth-token: ""                                # Optional, but required if ScanCentral Controller requires client authentication
-    - name: Setting FQDN address
-      run: |
-        export RUNNER_ALLOW_RUNASROOT="1"
-        export AGENT_ALLOW_RUNASROOT="1"
-        sudo echo "184.170.232.215 fortify.cyberxdemo.com" | sudo tee -a /etc/hosts
+    #     client-auth-token: ""                                # Optional, but required if ScanCentral Controller requires client authentication
+   #  - name: Setting FQDN address
+    #   run: |
+    #     export RUNNER_ALLOW_RUNASROOT="1"
+    #     export AGENT_ALLOW_RUNASROOT="1"
+    #     sudo echo "184.170.232.215 fortify.cyberxdemo.com" | sudo tee -a /etc/hosts
         
     ### Run Fortify ScanCentral Client ###
     # Update BUILD_OPTS based on the ScanCentral Client documentation and your project's included tech stack(s).
     #   ScanCentral Client will download dependencies for maven, gradle and msbuild projects.
     #   For other build tools, add your build commands to the workflow to download necessary dependencies and prepare according to Fortify SCA documentation.
-    - name: Perform SAST Scan
-      run: scancentral -url "http://184.170.232.215:8080/scancentral-ctrl" start $BUILD_OPTS -upload -application $APPLICATION -version $VERSION -uptoken $SSC_UPLOAD_TOKEN
-      env:                                            
-        SC_CONTROLLER_URL: "http://184.170.232.215:8080/scancentral-ctrl/"
-        SSC_UPLOAD_TOKEN: "31e46ef9-3ad1-465c-adca-5c53a6313037"
-        APPLICATION: "simprabbitMQ"
-        VERSION: "10.0"
-        BUILD_OPTS: "-bt mvn"
+ #    - name: Perform SAST Scan
+ #      run: scancentral -url "http://184.170.232.215:8080/scancentral-ctrl" start $BUILD_OPTS -upload -application $APPLICATION -version $VERSION -uptoken $SSC_UPLOAD_TOKEN
+ #      env:                                            
+ #        SC_CONTROLLER_URL: "http://184.170.232.215:8080/scancentral-ctrl/"
+ #        SSC_UPLOAD_TOKEN: "31e46ef9-3ad1-465c-adca-5c53a6313037"
+ #        APPLICATION: "simprabbitMQ"
+ #        VERSION: "10.0"
+ #        BUILD_OPTS: "-bt mvn"
      
      
